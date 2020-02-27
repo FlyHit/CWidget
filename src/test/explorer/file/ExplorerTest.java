@@ -1,6 +1,7 @@
 package test.explorer.file;
 
 import explorer.Explorer;
+import explorer.contentPane.CatalogTreeContentProvider;
 import explorer.contentPane.ICatalogTreeModel;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Display;
@@ -50,7 +51,7 @@ public class ExplorerTest {
 
         ICatalogTreeModel model = new FileTreeModel();
         Explorer explorer = new Explorer(shell, model);
-        explorer.setContentProvider(new CatalogContentProvider());
+        explorer.setContentProvider(new CatalogTreeContentProvider());
         explorer.setLabelProvider(new CatalogLabelProvider());
         explorer.refresh();
     }

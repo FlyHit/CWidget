@@ -30,8 +30,8 @@ public class BreadcrumbController implements IBreadcrumbController {
 
         final Menu menu = new Menu(toolItem.getParent().getShell(), SWT.POP_UP);
 
-        for (Object p : model.getChildren(toolItem.getData("path"))) {
-            String menuItemName = getItemName((String) p);
+        for (Object p : model.getChildren(toolItem.getData("node"))) {
+            String menuItemName = model.getNodeName(p);
             MenuItem menuItem = new MenuItem(menu, SWT.PUSH);
             menuItem.setText(menuItemName);
             menuItem.addSelectionListener(new SelectionAdapter() {
@@ -50,30 +50,9 @@ public class BreadcrumbController implements IBreadcrumbController {
     }
 
     @Override
-    public void inputCatalog(Object catalog) {
+    public void inputCatalog(String catalog) {
         model.handleInput(catalog);
-        // 使siteText lost focus
-        breadcrumb.setFocus();
-    }
-
-    /**
-     * 在文件路径提取出文件/文件夹名 注意：文件路径以'\'结尾
-     *
-     * @param path 文件路径
-     * @return 文件/文件夹名
-     */
-    static String getItemName(String path) {
-        String itemName = "";
-        int lastIndex = path.length() - 1;
-
-        for (int i = lastIndex; i > 0; i--) {
-            if (path.charAt(i) == '\\') {
-                // subString的结果不包含endIndex处的字符
-                itemName = path.substring(i + 1, lastIndex + 1);
-                break;
-            }
-        }
-
-        return itemName;
+        // 使siteText lost focus, setFocus()不管用
+        breadcrumb.forceFocus();
     }
 }

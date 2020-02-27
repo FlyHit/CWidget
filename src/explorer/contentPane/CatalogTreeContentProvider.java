@@ -1,19 +1,14 @@
-package test.explorer.file;
+package explorer.contentPane;
 
-import explorer.contentPane.ICatalogTreeModel;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 
-public class CatalogContentProvider implements ITreeContentProvider {
+public class CatalogTreeContentProvider implements ITreeContentProvider {
     private ICatalogTreeModel model;
-    private String rootNode;
-
-    public CatalogContentProvider() {
-    }
 
     @Override
     public Object[] getElements(Object inputElement) {
         this.model = (ICatalogTreeModel) inputElement;
-        this.rootNode = (String) model.getRootNode();
+        Object rootNode = model.getRootNode();
 
         return new Object[]{rootNode};
     }

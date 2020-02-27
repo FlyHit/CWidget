@@ -11,19 +11,21 @@ public class BreadcrumbItem {
         toolItem.addListener(SWT.Selection, event -> {
             IBreadcrumbController controller = parent.getController();
             ToolItem item = (ToolItem) event.widget;
-            String path = (String) item.getData("path");
+            Object catalog = item.getData("node");
 
             if (event.detail == SWT.ARROW) {
                 controller.previewCatalog(item);
             } else {
-                controller.jumpToCatalog(path);
+                controller.jumpToCatalog(catalog);
             }
         });
     }
 
     public void setText(String text) {
-        String itemName = BreadcrumbController.getItemName(text);
-        toolItem.setText(itemName);
-        toolItem.setData("path", text);
+        toolItem.setText(text);
+    }
+
+    public void setNode(Object node) {
+        toolItem.setData("node", node);
     }
 }

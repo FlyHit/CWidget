@@ -75,21 +75,18 @@ public class Breadcrumb extends Composite implements RootNodeObserver {
         addAll();
     }
 
-    public void add(String itemName) {
-        new BreadcrumbItem(this).setText(itemName);
+    private void add(Object node) {
+        BreadcrumbItem item = new BreadcrumbItem(this);
+        item.setText(model.getNodeName(node));
+        item.setNode(node);
         layout();
     }
 
-    public void addAll() {
+    private void addAll() {
         removeAll();
 
         for (Object root : model.getRoots()) {
-            if (root instanceof String) {
-                add((String) root);
-            } else {
-                System.out.println("创建失败，参数必须为String类型");
-                break;
-            }
+            add(root);
         }
     }
 

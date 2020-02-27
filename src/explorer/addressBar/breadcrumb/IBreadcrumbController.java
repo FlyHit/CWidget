@@ -13,5 +13,5 @@ public interface IBreadcrumbController {
      */
     void previewCatalog(Object item);
 
-    void inputCatalog(Object catalog);
+    void inputCatalog(String catalog);
 }
