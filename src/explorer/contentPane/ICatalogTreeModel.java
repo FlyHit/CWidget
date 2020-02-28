@@ -48,4 +48,6 @@ public interface ICatalogTreeModel<T> {
      * @return 给定节点的名称
      */
     String getNodeName(Object node);
+
+    Object findNode(Object name);
 }

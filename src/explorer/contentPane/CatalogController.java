@@ -3,11 +3,11 @@ package explorer.contentPane;
 import org.eclipse.nebula.widgets.gallery.GalleryItem;
 
 public class CatalogController implements ICatalogController {
-    private CatalogTreeViewer viewer;
+    private CatalogPane catalogPane;
     private ICatalogTreeModel model;
 
-    public CatalogController(CatalogTreeViewer viewer, ICatalogTreeModel model) {
-        this.viewer = viewer;
+    public CatalogController(CatalogPane catalogPane, ICatalogTreeModel model) {
+        this.catalogPane = catalogPane;
         this.model = model;
     }
 

@@ -93,7 +93,7 @@ public class FileTreeModel extends CatalogTreeModel {
 	}
 
 	@Override
-	protected Object findNode(Object name) {
+	public Object findNode(Object name) {
 		return getRootNode() + "\\" + name;
 	}
 }

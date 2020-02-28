@@ -114,7 +114,7 @@ public class Breadcrumb extends Composite implements RootNodeObserver {
     }
 
     @Override
-    public void update() {
+    public void updateState() {
         addAll();
     }
 }

@@ -93,7 +93,7 @@ public abstract class CatalogTreeModel implements ICatalogTreeModel {
     @Override
     public void notifyObserver() {
         for (RootNodeObserver observer : rootNodeObservers) {
-            observer.update();
+            observer.updateState();
         }
     }
 
@@ -115,6 +115,4 @@ public abstract class CatalogTreeModel implements ICatalogTreeModel {
     }
 
     protected abstract Object convertInput(String input);
-
-    protected abstract Object findNode(Object name);
 }

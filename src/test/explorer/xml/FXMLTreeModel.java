@@ -62,7 +62,7 @@ public class FXMLTreeModel extends CatalogTreeModel {
 	}
 
 	@Override
-	protected Object findNode(Object name) {
+	public Object findNode(Object name) {
 		Node rootNode1 = (Node) rootNode;
 		NodeList list = rootNode1.getChildNodes();
 		int length = list.getLength();
