@@ -2,8 +2,10 @@ package explorer.buttonPart;
 
 import explorer.contentPane.ICatalogTreeModel;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -18,11 +20,15 @@ public class ButtonPart extends Composite {
 	private ToolBar toolBar;
 	private ToolItem backButton;
 	private ToolItem favoriteButton;
+	private Color white;
 
 	public ButtonPart(Composite parent, ICatalogTreeModel model) {
 		super(parent, SWT.FLAT);
 		setLayout(new FillLayout());
+		white = new Color(getDisplay(), 255, 255, 255);
+		setBackground(white);
 		toolBar = new ToolBar(this, SWT.FLAT);
+		toolBar.setBackground(white);
 		backButton = new ToolItem(toolBar, SWT.FLAT);
 		backButton.setText("◀");
 		favoriteButton = new ToolItem(toolBar, SWT.DROP_DOWN);
@@ -30,6 +36,7 @@ public class ButtonPart extends Composite {
 		controller = new ButtonPartController(this, model);
 
 		addListener();
+		addDisposeListener(ButtonPart.this::widgetDisposed);
 	}
 
 	private void addListener() {
@@ -55,5 +62,9 @@ public class ButtonPart extends Composite {
 
 	public void setFavoriteImage(Image image) {
 		favoriteButton.setImage(image);
+	}
+
+	private void widgetDisposed(DisposeEvent e) {
+		white.dispose();
 	}
 }
