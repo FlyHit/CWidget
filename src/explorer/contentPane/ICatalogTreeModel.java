@@ -31,6 +31,7 @@ public interface ICatalogTreeModel<T> {
 
     /**
      * 返回上级目录
+     * @return 如果已经是最上级目录，返回false；反之，true
      */
     void back();
 

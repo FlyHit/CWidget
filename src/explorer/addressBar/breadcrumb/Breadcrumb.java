@@ -32,16 +32,23 @@ public class Breadcrumb extends Composite implements RootNodeObserver {
         setLayout(gridLayout);
         white = new Color(getDisplay(), 255, 255, 255);
         setBackground(white);
+        addControlListener(new ControlAdapter() {
+            @Override
+            public void controlResized(ControlEvent e) {
+                Breadcrumb.this.controlResized(e);
+            }
+        });
 
         this.model = model;
         model.registerObserver(this);
 
-        toolBar = new ToolBar(this, SWT.DROP_DOWN);
+        toolBar = new ToolBar(this, SWT.FLAT);
         toolBar.setBackground(white);
         gridData = new GridData();
         toolBar.setLayoutData(gridData);
         siteText = new Text(this, SWT.FLAT);
-        siteText.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, true));
+        GridData gridData1 = new GridData(GridData.FILL, GridData.FILL, true, true);
+        siteText.setLayoutData(gridData1);
         siteText.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -106,6 +113,11 @@ public class Breadcrumb extends Composite implements RootNodeObserver {
 
     private void widgetDisposed(DisposeEvent e) {
         white.dispose();
+    }
+
+    // TODO 调整窗口时，breadcrumb的一些项目收起来不显示
+    private void controlResized(ControlEvent e) {
+
     }
 
     private void textFocusGained(FocusEvent e) {
