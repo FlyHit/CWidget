@@ -2,7 +2,7 @@ package test.explorer.file;
 
 import explorer.Explorer;
 import explorer.contentPane.CatalogTreeContentProvider;
-import explorer.contentPane.ICatalogTreeModel;
+import explorer.contentPane.IContentTreeModel;
 import explorer.contentPane.Node;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Display;
@@ -50,8 +50,8 @@ public class ExplorerTest {
         shell.setText("SWT Application");
         shell.setLayout(new FillLayout());
 
-        Node node = new Node("C:\\Program Files\\eclipse rcp\\eclipse201912\\eclipse");
-        ICatalogTreeModel model = new FileTreeModel(node);
+        Node node = new Node("eclipse", "C:\\Program Files\\eclipse rcp\\eclipse201912\\eclipse");
+        IContentTreeModel model = new FileTreeModel(node);
         Explorer explorer = new Explorer(shell, model);
         explorer.setContentProvider(new CatalogTreeContentProvider());
         explorer.setLabelProvider(new CatalogLabelProvider());

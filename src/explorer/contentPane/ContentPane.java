@@ -15,9 +15,9 @@ public class ContentPane extends Composite {
 	private CatalogPane catalogPane;
 	private FavoritePane favoritePane;
 	private Composite searchComposite;
-	private ICatalogTreeModel model;
+	private IContentTreeModel model;
 
-	public ContentPane(Composite parent, ICatalogTreeModel model) {
+	public ContentPane(Composite parent, IContentTreeModel model) {
 		super(parent, SWT.FLAT);
 		this.model = model;
 		setData("name", "contentPane");

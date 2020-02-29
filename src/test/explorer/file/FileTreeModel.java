@@ -1,15 +1,14 @@
 package test.explorer.file;
 
-import explorer.contentPane.CatalogTreeModel;
+import explorer.contentPane.ContentTreeModel;
 import explorer.contentPane.Node;
-import explorer.contentPane.favoritePane.FavoriteListObserver;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class FileTreeModel extends CatalogTreeModel {
+public class FileTreeModel extends ContentTreeModel {
 
 	public FileTreeModel(Node rootNode) {
 		super(rootNode);
@@ -39,7 +38,7 @@ public class FileTreeModel extends CatalogTreeModel {
 		File file = new File((String) parentElement.getData());
 
 		for (File f : Objects.requireNonNull(file.listFiles())) {
-			Node node = new Node(f.getPath());
+			Node node = new Node(getName(f.getPath()), f.getPath());
 			childList.add(node);
 		}
 
@@ -56,21 +55,15 @@ public class FileTreeModel extends CatalogTreeModel {
 		// 最底层目录没有parent
 		if (!element.getData().equals(ROOTNODE.getData()) && isFilePath(element.getData())) {
 			String parent = new File((String) element.getData()).getParent();
-			return new Node(parent);
+			return new Node(getName(parent), parent);
 		}
 
 		return null;
 	}
 
-	@Override
-	public void registerFavoriteObserver(FavoriteListObserver observer) {
-
-	}
-
-	@Override
-	public String getNodeName(Node node) {
+	private String getName(String data) {
 		String itemName = "";
-		String path = (String) node.getData();
+		String path = data;
 		int lastIndex = path.length() - 1;
 
 		for (int i = lastIndex; i > 0; i--) {
@@ -102,11 +95,12 @@ public class FileTreeModel extends CatalogTreeModel {
 			pathname = pathname.substring(0, pathname.length() - 1);
 		}
 
-		return new Node(pathname);
+		return new Node(getName(pathname), pathname);
 	}
 
 	@Override
 	public Node findNode(Object name) {
-		return new Node(getRootNode().getData() + "\\" + name);
+		String pathname = getRootNode().getData() + "\\" + name;
+		return new Node(getName(pathname), pathname);
 	}
 }

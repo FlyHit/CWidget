@@ -1,7 +1,6 @@
 package explorer.contentPane.catalogPane;
 
-import explorer.contentPane.ICatalogController;
-import explorer.contentPane.ICatalogTreeModel;
+import explorer.contentPane.IContentTreeModel;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IContributionItem;
@@ -11,9 +10,9 @@ import java.util.Optional;
 
 public class CatalogController implements ICatalogController {
     private CatalogPane catalogPane;
-    private ICatalogTreeModel model;
+    private IContentTreeModel model;
 
-    public CatalogController(CatalogPane catalogPane, ICatalogTreeModel model) {
+    public CatalogController(CatalogPane catalogPane, IContentTreeModel model) {
         this.catalogPane = catalogPane;
         this.model = model;
     }

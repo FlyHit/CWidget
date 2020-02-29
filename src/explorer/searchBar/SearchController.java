@@ -1,11 +1,11 @@
 package explorer.searchBar;
 
-import explorer.contentPane.ICatalogTreeModel;
+import explorer.contentPane.IContentTreeModel;
 
 class SearchController {
-    private ICatalogTreeModel model;
+    private IContentTreeModel model;
 
-    public SearchController(ICatalogTreeModel model) {
+    public SearchController(IContentTreeModel model) {
         this.model = model;
     }
 

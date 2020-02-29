@@ -1,7 +1,6 @@
 package explorer.contentPane.catalogPane;
 
-import explorer.contentPane.ICatalogController;
-import explorer.contentPane.ICatalogTreeModel;
+import explorer.contentPane.IContentTreeModel;
 import explorer.contentPane.RootNodeObserver;
 import org.eclipse.jface.action.GroupMarker;
 import org.eclipse.jface.action.IContributionItem;
@@ -23,10 +22,10 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 public class CatalogPane extends Composite implements RootNodeObserver {
     private Gallery gallery;
     private GalleryTreeViewer galleryTreeViewer;
-    private ICatalogTreeModel model;
+    private IContentTreeModel model;
     private ICatalogController controller;
 
-    public CatalogPane(Composite parent, ICatalogTreeModel model) {
+    public CatalogPane(Composite parent, IContentTreeModel model) {
         super(parent, SWT.FLAT);
         setLayout(new FillLayout());
         // TODO galleryItem显示text有省略号，改成分行显示

@@ -1,6 +1,6 @@
 package explorer.buttonPart;
 
-import explorer.contentPane.ICatalogTreeModel;
+import explorer.contentPane.IContentTreeModel;
 import explorer.contentPane.Node;
 import explorer.contentPane.RootNodeObserver;
 import org.eclipse.swt.SWT;
@@ -23,19 +23,21 @@ public class ButtonPart extends Composite implements RootNodeObserver {
 	private ToolItem backButton;
 	private ToolItem favoriteButton;
 	private Color white;
-	private ICatalogTreeModel model;
-	protected Node ROOTNODE;
+    private IContentTreeModel model;
+    Node ROOTNODE;
 
-	public ButtonPart(Composite parent, ICatalogTreeModel model) {
+    public ButtonPart(Composite parent, IContentTreeModel model) {
 		super(parent, SWT.FLAT);
 		this.model = model;
 		this.ROOTNODE = model.getRootNode();
 		setLayout(new FillLayout());
 		white = new Color(getDisplay(), 255, 255, 255);
 		setBackground(white);
+
 		toolBar = new ToolBar(this, SWT.FLAT);
 		toolBar.setBackground(white);
-		backButton = new ToolItem(toolBar, SWT.FLAT);
+
+        backButton = new ToolItem(toolBar, SWT.FLAT);
 		backButton.setText("◀");
 		backButton.setEnabled(false);
 		favoriteButton = new ToolItem(toolBar, SWT.DROP_DOWN);
@@ -79,6 +81,7 @@ public class ButtonPart extends Composite implements RootNodeObserver {
 
 	@Override
 	public void updateState() {
+        // 在最上级目录的时候，返回按钮变灰
 		if (model.getRootNode().getData().equals(ROOTNODE.getData())) {
 			backButton.setEnabled(false);
 		} else {

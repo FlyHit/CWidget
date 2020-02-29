@@ -2,7 +2,7 @@ package test.explorer.xml;
 
 import explorer.Explorer;
 import explorer.contentPane.CatalogTreeContentProvider;
-import explorer.contentPane.ICatalogTreeModel;
+import explorer.contentPane.IContentTreeModel;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -77,7 +77,7 @@ public class ExplorerTest {
 			}
 		}
 
-		ICatalogTreeModel model = new FXMLTreeModel(root);
+        IContentTreeModel model = new FXMLTreeModel(root);
 		Explorer explorer = new Explorer(shell, model);
 		explorer.setContentProvider(new CatalogTreeContentProvider());
 		explorer.setLabelProvider(new FXMLLabelProvider());

@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * 所有显示在Explorer上的model必须实现该接口
  */
-public interface ICatalogTreeModel {
+public interface IContentTreeModel {
     Node[] getChildren(Node parentElement);
 
     Node getParent(Node element);
@@ -41,14 +41,6 @@ public interface ICatalogTreeModel {
      * @param input 输入的地址
      */
     void handleInput(String input);
-
-    /**
-     * 获取给定节点的名称，用于显示在breadcrumb上
-     *
-     * @param node 给定的节点
-     * @return 给定节点的名称
-     */
-    String getNodeName(Node node);
 
     Node findNode(Object name);
 

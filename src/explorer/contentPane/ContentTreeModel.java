@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * 该类提供了ICatalogTreeModel接口中一些方法的默认实现，由model类继承
  */
-public abstract class CatalogTreeModel implements ICatalogTreeModel {
+public abstract class ContentTreeModel implements IContentTreeModel {
 	protected final Node ROOTNODE;
 	protected Node rootNode;
 	private List<Node> roots;
@@ -16,7 +16,7 @@ public abstract class CatalogTreeModel implements ICatalogTreeModel {
 	protected List<Node> favoriteList;
 	private List<FavoriteListObserver> favoriteObservers;
 
-	public CatalogTreeModel(Node rootNode) {
+	public ContentTreeModel(Node rootNode) {
 		this.rootNode = rootNode;
 		this.ROOTNODE = rootNode;
 		this.roots = new ArrayList<>();
@@ -134,11 +134,18 @@ public abstract class CatalogTreeModel implements ICatalogTreeModel {
 	}
 
 	private void notifyFavoriteObservers() {
-
+		for (FavoriteListObserver favoriteObserver : favoriteObservers) {
+			favoriteObserver.updateState();
+		}
 	}
 
 	@Override
 	public List<Node> getFavoriteList() {
 		return favoriteList;
+	}
+
+	@Override
+	public void registerFavoriteObserver(FavoriteListObserver observer) {
+		favoriteObservers.add(observer);
 	}
 }

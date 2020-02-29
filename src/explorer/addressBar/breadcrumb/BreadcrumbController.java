@@ -1,6 +1,6 @@
 package explorer.addressBar.breadcrumb;
 
-import explorer.contentPane.ICatalogTreeModel;
+import explorer.contentPane.IContentTreeModel;
 import explorer.contentPane.Node;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -12,10 +12,10 @@ import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.ToolItem;
 
 public class BreadcrumbController implements IBreadcrumbController {
-    private ICatalogTreeModel model;
+    private IContentTreeModel model;
     private Breadcrumb breadcrumb;
 
-    public BreadcrumbController(ICatalogTreeModel model, Breadcrumb breadcrumb) {
+    public BreadcrumbController(IContentTreeModel model, Breadcrumb breadcrumb) {
         this.model = model;
         this.breadcrumb = breadcrumb;
     }
@@ -32,8 +32,8 @@ public class BreadcrumbController implements IBreadcrumbController {
         final Menu menu = new Menu(toolItem.getParent().getShell(), SWT.POP_UP);
 
         for (Node node : model.getChildren((Node) toolItem.getData("node"))) {
-//            String menuItemName = node.getName();
-            String menuItemName = model.getNodeName(node);
+            String menuItemName = node.getName();
+//            String menuItemName = model.getNodeName(node);
             MenuItem menuItem = new MenuItem(menu, SWT.PUSH);
             menuItem.setText(menuItemName);
             menuItem.addSelectionListener(new SelectionAdapter() {

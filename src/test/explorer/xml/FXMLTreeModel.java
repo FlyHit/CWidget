@@ -1,10 +1,10 @@
 package test.explorer.xml;
 
-import explorer.contentPane.CatalogTreeModel;
+import explorer.contentPane.ContentTreeModel;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class FXMLTreeModel extends CatalogTreeModel {
+public class FXMLTreeModel extends ContentTreeModel {
 
 	public FXMLTreeModel(Object rootNode) {
 		super(rootNode);

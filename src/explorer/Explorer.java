@@ -3,7 +3,7 @@ package explorer;
 import explorer.addressBar.breadcrumb.Breadcrumb;
 import explorer.buttonPart.ButtonPart;
 import explorer.contentPane.ContentPane;
-import explorer.contentPane.ICatalogTreeModel;
+import explorer.contentPane.IContentTreeModel;
 import explorer.searchBar.SearchBox;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -22,7 +22,7 @@ public class Explorer extends Composite {
 	private ContentPane contentPane;
 	private Color white;
 
-	public Explorer(Composite parent, ICatalogTreeModel model) {
+	public Explorer(Composite parent, IContentTreeModel model) {
 		super(parent, SWT.FLAT);
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.marginHeight = 0;

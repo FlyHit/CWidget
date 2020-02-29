@@ -7,9 +7,9 @@ public class Node {
     private ImageDescriptor imageDescriptor;
     private Object data;
 
-    public Node(Object node) {
-        this.data = node;
-        this.name = "";
+    public Node(String name, Object data) {
+        this.name = name;
+        this.data = data;
         this.imageDescriptor = null;
     }
 

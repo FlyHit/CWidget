@@ -1,6 +1,6 @@
 package explorer.searchBar;
 
-import explorer.contentPane.ICatalogTreeModel;
+import explorer.contentPane.IContentTreeModel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
@@ -15,9 +15,9 @@ public class SearchBox extends Composite {
     private Label searchButton;
     private Text searchText;
     private SearchController controller;
-    private ICatalogTreeModel model;
+    private IContentTreeModel model;
 
-    public SearchBox(Composite parent, ICatalogTreeModel model) {
+    public SearchBox(Composite parent, IContentTreeModel model) {
         super(parent, SWT.FLAT);
         this.model = model;
         this.controller = new SearchController(model);

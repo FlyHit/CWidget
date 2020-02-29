@@ -26,7 +26,7 @@ public class BreadcrumbItem {
         toolItem.setText(text);
     }
 
-    public void setNode(Object node) {
+    public void setNode(Node node) {
         toolItem.setData("node", node);
     }
 }

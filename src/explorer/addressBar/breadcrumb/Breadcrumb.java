@@ -1,6 +1,6 @@
 package explorer.addressBar.breadcrumb;
 
-import explorer.contentPane.ICatalogTreeModel;
+import explorer.contentPane.IContentTreeModel;
 import explorer.contentPane.Node;
 import explorer.contentPane.RootNodeObserver;
 import org.eclipse.swt.SWT;
@@ -18,13 +18,13 @@ import org.eclipse.swt.widgets.ToolItem;
  */
 public class Breadcrumb extends Composite implements RootNodeObserver {
     private IBreadcrumbController controller;
-    private ICatalogTreeModel model;
+    private IContentTreeModel model;
     private ToolBar toolBar;
     private Text siteText;
     private GridData gridData;
     private Color white;
 
-    public Breadcrumb(Composite parent, ICatalogTreeModel model) {
+    public Breadcrumb(Composite parent, IContentTreeModel model) {
         super(parent, SWT.FLAT);
         GridLayout gridLayout = new GridLayout();
         gridLayout.numColumns = 2;
@@ -80,7 +80,7 @@ public class Breadcrumb extends Composite implements RootNodeObserver {
 
     private void add(Node node) {
         BreadcrumbItem item = new BreadcrumbItem(this);
-        item.setText(model.getNodeName(node));
+        item.setText(node.getName());
         item.setNode(node);
         layout();
     }

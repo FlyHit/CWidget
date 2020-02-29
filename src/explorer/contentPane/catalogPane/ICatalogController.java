@@ -1,4 +1,4 @@
-package explorer.contentPane;
+package explorer.contentPane.catalogPane;
 
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.nebula.widgets.gallery.GalleryItem;

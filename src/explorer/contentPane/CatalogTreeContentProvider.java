@@ -3,11 +3,11 @@ package explorer.contentPane;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 
 public class CatalogTreeContentProvider implements ITreeContentProvider {
-    private ICatalogTreeModel model;
+    private IContentTreeModel model;
 
     @Override
     public Object[] getElements(Object inputElement) {
-        this.model = (ICatalogTreeModel) inputElement;
+        this.model = (IContentTreeModel) inputElement;
         Object rootNode = model.getRootNode();
 
         return new Object[]{rootNode};
