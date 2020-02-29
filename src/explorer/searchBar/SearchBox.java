@@ -1,5 +1,6 @@
 package explorer.searchBar;
 
+import explorer.contentPane.ICatalogTreeModel;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
@@ -13,9 +14,13 @@ import org.eclipse.swt.widgets.Text;
 public class SearchBox extends Composite {
     private Label searchButton;
     private Text searchText;
+    private SearchController controller;
+    private ICatalogTreeModel model;
 
-    public SearchBox(Composite parent, int style) {
-        super(parent, style);
+    public SearchBox(Composite parent, ICatalogTreeModel model) {
+        super(parent, SWT.FLAT);
+        this.model = model;
+        this.controller = new SearchController(model);
         final GridLayout gridLayout = new GridLayout();
         gridLayout.numColumns = 2;
         gridLayout.marginWidth = 0;
@@ -33,7 +38,7 @@ public class SearchBox extends Composite {
         searchButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseUp(MouseEvent e) {
-                // TODO 搜索
+                controller.search(searchText.getText());
             }
         });
     }

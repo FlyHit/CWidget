@@ -1,6 +1,7 @@
 package explorer.addressBar.breadcrumb;
 
 import explorer.contentPane.ICatalogTreeModel;
+import explorer.contentPane.Node;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -20,7 +21,7 @@ public class BreadcrumbController implements IBreadcrumbController {
     }
 
     @Override
-    public void jumpToCatalog(Object catalog) {
+    public void jumpToCatalog(Node catalog) {
         model.setRoots(catalog);
     }
 
@@ -30,14 +31,15 @@ public class BreadcrumbController implements IBreadcrumbController {
 
         final Menu menu = new Menu(toolItem.getParent().getShell(), SWT.POP_UP);
 
-        for (Object p : model.getChildren(toolItem.getData("node"))) {
-            String menuItemName = model.getNodeName(p);
+        for (Node node : model.getChildren((Node) toolItem.getData("node"))) {
+//            String menuItemName = node.getName();
+            String menuItemName = model.getNodeName(node);
             MenuItem menuItem = new MenuItem(menu, SWT.PUSH);
             menuItem.setText(menuItemName);
             menuItem.addSelectionListener(new SelectionAdapter() {
                 @Override
                 public void widgetSelected(SelectionEvent e) {
-                    jumpToCatalog(p);
+                    jumpToCatalog(node);
                 }
             });
         }

@@ -1,5 +1,8 @@
-package explorer.contentPane;
+package explorer.contentPane.favoritePane;
 
+import explorer.contentPane.ContentPane;
+import explorer.contentPane.ICatalogTreeModel;
+import explorer.contentPane.Node;
 import org.eclipse.nebula.widgets.gallery.Gallery;
 import org.eclipse.nebula.widgets.gallery.GalleryItem;
 import org.eclipse.nebula.widgets.gallery.NoGroupRenderer;
@@ -9,16 +12,20 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 
+import java.util.List;
+
 /**
  * 显示收藏内容的面板
  */
-public class FavoritePane extends Composite {
+public class FavoritePane extends Composite implements FavoriteListObserver {
     private Gallery gallery;
     private GalleryItem galleryGroup;
+    private ICatalogTreeModel model;
 
     public FavoritePane(Composite parent, ICatalogTreeModel model) {
         super(parent, SWT.FLAT);
         setLayout(new FillLayout());
+        this.model = model;
 
         gallery = new Gallery(this, SWT.SINGLE | SWT.V_SCROLL);
         NoGroupRenderer noGroupRenderer = new NoGroupRenderer();
@@ -30,7 +37,7 @@ public class FavoritePane extends Composite {
                 GalleryItem[] galleryItems = gallery.getSelection();
                 if (galleryItems.length != 0) {
                     GalleryItem item = galleryItems[0];
-                    Object node = item.getData("node");
+                    Node node = (Node) item.getData("node");
                     model.setRoots(node);
                     ContentPane contentPane = (ContentPane) parent.getParent();
                     contentPane.switchPage(ContentPane.PAGE.VIEWER);
@@ -50,5 +57,10 @@ public class FavoritePane extends Composite {
 
     public GalleryItem[] getItems() {
         return galleryGroup.getItems();
+    }
+
+    @Override
+    public void updateState() {
+        List favoriteList = model.getFavoriteList();
     }
 }

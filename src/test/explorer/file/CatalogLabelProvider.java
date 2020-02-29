@@ -1,5 +1,6 @@
 package test.explorer.file;
 
+import explorer.contentPane.Node;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
@@ -16,8 +17,9 @@ public class CatalogLabelProvider implements ILabelProvider {
     public String getText(Object element) {
         String text = "";
 
-        if (element instanceof String) {
-            File file = new File((String) element);
+        if (element instanceof Node) {
+            Node node = (Node) element;
+            File file = new File((String) node.getData());
             text = file.getName();
 
             if (text.length() == 0) {

@@ -1,6 +1,8 @@
 package test.explorer.file;
 
 import explorer.contentPane.CatalogTreeModel;
+import explorer.contentPane.Node;
+import explorer.contentPane.favoritePane.FavoriteListObserver;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -9,22 +11,21 @@ import java.util.Objects;
 
 public class FileTreeModel extends CatalogTreeModel {
 
-	public FileTreeModel() {
-		super("C:\\Program Files\\eclipse rcp\\eclipse201912\\eclipse");
+	public FileTreeModel(Node rootNode) {
+		super(rootNode);
 	}
 
 	@Override
-	protected boolean setRootNode(Object rootNode) {
-		if (rootNode instanceof String) {
-			File file = new File((String) rootNode);
+	protected boolean setRootNode(Node rootNode) {
+		if (rootNode.getData() instanceof String) {
+			File file = new File((String) rootNode.getData());
 			if (file.exists() && file.isDirectory()) {
 				this.rootNode = rootNode;
 
 				return true;
-			} else {
-				// Todo 抛出异常会不会更好
-				System.out.println("非有效文件根路径");
 			}
+			// Todo 抛出异常会不会更好
+			System.out.println("非有效文件根路径");
 		} else {
 			System.out.println("设置失败，rootNode必须是String类型！");
 		}
@@ -33,31 +34,43 @@ public class FileTreeModel extends CatalogTreeModel {
 	}
 
 	@Override
-	public Object[] getChildren(Object parentElement) {
-		List<String> childList = new ArrayList<>();
-		File file = new File((String) parentElement);
+	public Node[] getChildren(Node parentElement) {
+		List<Node> childList = new ArrayList<>();
+		File file = new File((String) parentElement.getData());
 
 		for (File f : Objects.requireNonNull(file.listFiles())) {
-			childList.add(f.getPath());
+			Node node = new Node(f.getPath());
+			childList.add(node);
 		}
 
-		return childList.toArray();
+		Node[] nodes = new Node[childList.size()];
+		for (int i = 0; i < childList.size(); i++) {
+			nodes[i] = childList.get(i);
+		}
+
+		return nodes;
 	}
 
 	@Override
-	public Object getParent(Object element) {
+	public Node getParent(Node element) {
 		// 最底层目录没有parent
-		if (!element.equals(ROOTNODE) && isFilePath(element)) {
-			return new File((String) element).getParent();
+		if (!element.getData().equals(ROOTNODE.getData()) && isFilePath(element.getData())) {
+			String parent = new File((String) element.getData()).getParent();
+			return new Node(parent);
 		}
 
 		return null;
 	}
 
 	@Override
-	public String getNodeName(Object node) {
+	public void registerFavoriteObserver(FavoriteListObserver observer) {
+
+	}
+
+	@Override
+	public String getNodeName(Node node) {
 		String itemName = "";
-		String path = (String) node;
+		String path = (String) node.getData();
 		int lastIndex = path.length() - 1;
 
 		for (int i = lastIndex; i > 0; i--) {
@@ -82,18 +95,18 @@ public class FileTreeModel extends CatalogTreeModel {
 	}
 
 	@Override
-	protected Object convertInput(String input) {
+	protected Node convertInput(String input) {
 		String pathname = input;
 
 		if (pathname.endsWith("\\")) {
 			pathname = pathname.substring(0, pathname.length() - 1);
 		}
 
-		return pathname;
+		return new Node(pathname);
 	}
 
 	@Override
-	public Object findNode(Object name) {
-		return getRootNode() + "\\" + name;
+	public Node findNode(Object name) {
+		return new Node(getRootNode().getData() + "\\" + name);
 	}
 }

@@ -1,10 +1,12 @@
 package explorer.addressBar.breadcrumb;
 
+import explorer.contentPane.Node;
+
 public interface IBreadcrumbController {
     /**
      * 跳转到目录
      */
-    void jumpToCatalog(Object catalog);
+    void jumpToCatalog(Node catalog);
 
     /**
      * 预览目录

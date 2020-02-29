@@ -15,16 +15,31 @@ public class CatalogTreeContentProvider implements ITreeContentProvider {
 
     @Override
     public Object[] getChildren(Object parentElement) {
-        return model.getChildren(parentElement);
+        if (parentElement instanceof Node) {
+            Node parentNode = (Node) parentElement;
+            return model.getChildren(parentNode);
+        }
+
+        return null;
     }
 
     @Override
     public Object getParent(Object element) {
-        return model.getParent(element);
+        if (element instanceof Node) {
+            Node node = (Node) element;
+            return model.getParent(node);
+        }
+
+        return null;
     }
 
     @Override
     public boolean hasChildren(Object element) {
-        return model.hasChildren(element);
+        if (element instanceof Node) {
+            Node node = (Node) element;
+            return model.hasChildren(node);
+        }
+
+        return false;
     }
 }

@@ -1,5 +1,6 @@
 package explorer.addressBar.breadcrumb;
 
+import explorer.contentPane.Node;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.ToolItem;
 
@@ -11,7 +12,7 @@ public class BreadcrumbItem {
         toolItem.addListener(SWT.Selection, event -> {
             IBreadcrumbController controller = parent.getController();
             ToolItem item = (ToolItem) event.widget;
-            Object catalog = item.getData("node");
+            Node catalog = (Node) item.getData("node");
 
             if (event.detail == SWT.ARROW) {
                 controller.previewCatalog(item);

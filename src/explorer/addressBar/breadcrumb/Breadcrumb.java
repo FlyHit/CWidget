@@ -1,6 +1,7 @@
 package explorer.addressBar.breadcrumb;
 
 import explorer.contentPane.ICatalogTreeModel;
+import explorer.contentPane.Node;
 import explorer.contentPane.RootNodeObserver;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.*;
@@ -40,7 +41,7 @@ public class Breadcrumb extends Composite implements RootNodeObserver {
         });
 
         this.model = model;
-        model.registerObserver(this);
+        model.registerRootNodeObserver(this);
 
         toolBar = new ToolBar(this, SWT.FLAT);
         toolBar.setBackground(white);
@@ -77,7 +78,7 @@ public class Breadcrumb extends Composite implements RootNodeObserver {
         addDisposeListener(Breadcrumb.this::widgetDisposed);
     }
 
-    private void add(Object node) {
+    private void add(Node node) {
         BreadcrumbItem item = new BreadcrumbItem(this);
         item.setText(model.getNodeName(node));
         item.setNode(node);
@@ -87,7 +88,7 @@ public class Breadcrumb extends Composite implements RootNodeObserver {
     private void addAll() {
         removeAll();
 
-        for (Object root : model.getRoots()) {
+        for (Node root : model.getRoots()) {
             add(root);
         }
     }
@@ -98,7 +99,7 @@ public class Breadcrumb extends Composite implements RootNodeObserver {
         }
     }
 
-    ToolBar getToolBar() {
+    public ToolBar getToolBar() {
         return toolBar;
     }
 
@@ -123,8 +124,8 @@ public class Breadcrumb extends Composite implements RootNodeObserver {
     private void textFocusGained(FocusEvent e) {
         Text text = (Text) e.widget;
         // TODO 这里不通用需要改
-        String path = (String) model.getRootNode();
-        text.setText(path);
+//        String path = (String) model.getRootNode();
+//        text.setText(path);
         text.selectAll();
         gridData.exclude = true;
         toolBar.setVisible(false);

@@ -31,7 +31,7 @@ public class Explorer extends Composite {
 		white = new Color(getDisplay(), 255, 255, 255);
 		setBackground(white);
 
-		searchBox = new SearchBox(this, SWT.FLAT);
+		searchBox = new SearchBox(this, model);
 		searchBox.setLayoutData(new GridData(GridData.FILL, GridData.FILL, true, false));
 
 		Composite middleComposite = new Composite(this, SWT.FLAT | SWT.BORDER);

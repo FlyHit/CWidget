@@ -1,8 +1,9 @@
 package explorer.buttonPart;
 
 import explorer.contentPane.ContentPane;
-import explorer.contentPane.FavoritePane;
 import explorer.contentPane.ICatalogTreeModel;
+import explorer.contentPane.Node;
+import explorer.contentPane.favoritePane.FavoritePane;
 import org.eclipse.nebula.widgets.gallery.GalleryItem;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -29,7 +30,7 @@ class ButtonPartController {
         if (isFavorite) {
             contentPane.switchPage(ContentPane.PAGE.VIEWER);
             isFavorite = false;
-            model.setRoots(model.getRootNode());
+            model.setRoots(buttonPart.ROOTNODE);
         } else {
             model.back();
         }
@@ -44,6 +45,14 @@ class ButtonPartController {
         setContentPane();
         contentPane.switchPage(ContentPane.PAGE.FAVORITE);
         isFavorite = true;
+        buttonPart.getBackButton().setEnabled(true);
+//        Composite parent = buttonPart.getParent();
+//        for (Control child : parent.getChildren()) {
+//            if (!child.equals(buttonPart)) {
+//                Breadcrumb breadcrumb = (Breadcrumb) child;
+//                new ToolItem(breadcrumb.getToolBar(), SWT.DROP_DOWN).setText("Favorite");
+//            }
+//        }
         buttonPart.setFocus();
     }
 
@@ -64,7 +73,7 @@ class ButtonPartController {
             menuItem.addSelectionListener(new SelectionAdapter() {
                 @Override
                 public void widgetSelected(SelectionEvent e) {
-                    model.setRoots(item.getData("node"));
+                    model.setRoots((Node) item.getData("node"));
                 }
             });
         }

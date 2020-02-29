@@ -1,5 +1,6 @@
 package explorer.contentPane;
 
+import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.nebula.widgets.gallery.GalleryItem;
 
 public interface ICatalogController {
@@ -9,4 +10,11 @@ public interface ICatalogController {
      * @param galleryItem
      */
     void open(GalleryItem galleryItem);
+
+    /**
+     * 创建菜单项
+     *
+     * @return 菜单项
+     */
+    IContributionItem[] createMenuItem();
 }

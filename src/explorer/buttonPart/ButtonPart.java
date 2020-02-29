@@ -1,6 +1,7 @@
 package explorer.buttonPart;
 
 import explorer.contentPane.ICatalogTreeModel;
+import explorer.contentPane.Node;
 import explorer.contentPane.RootNodeObserver;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
@@ -23,7 +24,7 @@ public class ButtonPart extends Composite implements RootNodeObserver {
 	private ToolItem favoriteButton;
 	private Color white;
 	private ICatalogTreeModel model;
-	private Object ROOTNODE;
+	protected Node ROOTNODE;
 
 	public ButtonPart(Composite parent, ICatalogTreeModel model) {
 		super(parent, SWT.FLAT);
@@ -44,7 +45,7 @@ public class ButtonPart extends Composite implements RootNodeObserver {
 		addListener();
 		addDisposeListener(ButtonPart.this::widgetDisposed);
 
-		model.registerObserver(this);
+		model.registerRootNodeObserver(this);
 	}
 
 	private void addListener() {
@@ -78,10 +79,14 @@ public class ButtonPart extends Composite implements RootNodeObserver {
 
 	@Override
 	public void updateState() {
-		if (model.getRootNode().equals(ROOTNODE)) {
+		if (model.getRootNode().getData().equals(ROOTNODE.getData())) {
 			backButton.setEnabled(false);
 		} else {
 			backButton.setEnabled(true);
 		}
+	}
+
+	ToolItem getBackButton() {
+		return backButton;
 	}
 }

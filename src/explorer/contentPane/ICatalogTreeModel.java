@@ -1,31 +1,31 @@
 package explorer.contentPane;
 
+import explorer.contentPane.favoritePane.FavoriteListObserver;
+
 import java.util.List;
 
 /**
  * 所有显示在Explorer上的model必须实现该接口
- *
- * @param <T>
  */
-public interface ICatalogTreeModel<T> {
-    Object[] getChildren(Object parentElement);
+public interface ICatalogTreeModel {
+    Node[] getChildren(Node parentElement);
 
-    Object getParent(Object element);
+    Node getParent(Node element);
 
-    boolean hasChildren(Object element);
+    boolean hasChildren(Node element);
 
-    Object getRootNode();
+    Node getRootNode();
 
     /**
      * @return 父节点列表（父节点，父父节点...)
      */
-    List<T> getRoots();
+    List<Node> getRoots();
 
-    void setRoots(Object rootNode);
+    void setRoots(Node rootNode);
 
-    void registerObserver(RootNodeObserver observer);
+    void registerRootNodeObserver(RootNodeObserver observer);
 
-    void notifyObserver();
+    void registerFavoriteObserver(FavoriteListObserver observer);
 
     void open(String itemName);
 
@@ -48,7 +48,23 @@ public interface ICatalogTreeModel<T> {
      * @param node 给定的节点
      * @return 给定节点的名称
      */
-    String getNodeName(Object node);
+    String getNodeName(Node node);
 
-    Object findNode(Object name);
+    Node findNode(Object name);
+
+    /**
+     * 添加到收藏
+     *
+     * @param itemName 添加项目的名称
+     */
+    void addToFavorite(String itemName);
+
+    /**
+     * 移除收藏的项目
+     *
+     * @param itemName 收藏项目的名称
+     */
+    void removeFromFavorite(String itemName);
+
+    List<Node> getFavoriteList();
 }

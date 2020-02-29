@@ -1,5 +1,12 @@
-package explorer.contentPane;
+package explorer.contentPane.catalogPane;
 
+import explorer.contentPane.ICatalogController;
+import explorer.contentPane.ICatalogTreeModel;
+import explorer.contentPane.RootNodeObserver;
+import org.eclipse.jface.action.GroupMarker;
+import org.eclipse.jface.action.IContributionItem;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -10,6 +17,8 @@ import org.eclipse.nebula.widgets.gallery.NoGroupRenderer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.ui.IWorkbenchActionConstants;
 
 public class CatalogPane extends Composite implements RootNodeObserver {
     private Gallery gallery;
@@ -32,9 +41,10 @@ public class CatalogPane extends Composite implements RootNodeObserver {
         gallery.setGroupRenderer(noGroupRenderer);
         this.galleryTreeViewer = new GalleryTreeViewer(gallery);
         this.model = model;
-        this.model.registerObserver(this);
+        this.model.registerRootNodeObserver(this);
         this.controller = new CatalogController(this, model);
         galleryTreeViewer.addDoubleClickListener(this::doubleClick);
+        createContextMenu();
     }
 
     public void setContentProvider(ITreeContentProvider contentProvider) {
@@ -80,7 +90,20 @@ public class CatalogPane extends Composite implements RootNodeObserver {
         open();
     }
 
-    GalleryTreeViewer getViewer() {
-        return this.galleryTreeViewer;
+    private void createContextMenu() {
+        MenuManager contextMenu = new MenuManager("#ViewerMenu"); //$NON-NLS-1$
+        contextMenu.setRemoveAllWhenShown(true);
+        contextMenu.addMenuListener(this::fillContextMenu);
+
+        Menu menu = contextMenu.createContextMenu(galleryTreeViewer.getControl());
+        galleryTreeViewer.getControl().setMenu(menu);
+    }
+
+    private void fillContextMenu(IMenuManager contextMenu) {
+        contextMenu.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
+
+        for (IContributionItem item : controller.createMenuItem()) {
+            contextMenu.add(item);
+        }
     }
 }
