@@ -42,8 +42,6 @@ public interface IContentTreeModel {
      */
     void handleInput(String input);
 
-    Node findNode(Object name);
-
     /**
      * 添加到收藏
      *

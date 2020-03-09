@@ -11,8 +11,6 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 
-import java.util.List;
-
 /**
  * 显示收藏内容的面板
  */
@@ -47,27 +45,32 @@ public class FavoritePane extends Composite implements FavoriteListObserver {
 		GalleryItem galleryItem = new GalleryItem(galleryGroup, SWT.NONE);
 		galleryItem.setText(node.getName());
 		// TODO 设置图片
+		galleryItem.setImage(node.getImageDescriptor().createImage(true));
 		galleryItem.setData("node", node);
 		layout();
 	}
 
 	private void remove(Node node) {
-//	    galleryGroup.remove();
-    }
+		for (GalleryItem item : galleryGroup.getItems()) {
+			Node n = (Node) item.getData("node");
+			if (n.getData().equals(node.getData())) {
+				galleryGroup.remove(item);
+			}
+		}
+
+		layout();
+	}
 
 	public GalleryItem[] getItems() {
 		return galleryGroup.getItems();
 	}
 
 	@Override
-	public void updateState() {
-		List<Node> favoriteList = model.getFavoriteList();
-		int size = favoriteList.size();
-
-		if (size > getItems().length) {
-			add(favoriteList.get(size - 1));
-		} else if (size < getItems().length) {
-			// TODO 从收藏列表中移除
+	public void updateState(boolean isAdd, Node node) {
+		if (isAdd) {
+			add(node);
+		} else {
+			remove(node);
 		}
 	}
 

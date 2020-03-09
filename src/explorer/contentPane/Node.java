@@ -10,7 +10,7 @@ public class Node {
     public Node(String name, Object data) {
         this.name = name;
         this.data = data;
-        this.imageDescriptor = null;
+        this.imageDescriptor = ImageDescriptor.getMissingImageDescriptor();
     }
 
     public Object getData() {

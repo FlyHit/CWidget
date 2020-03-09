@@ -98,9 +98,8 @@ public class FileTreeModel extends ContentTreeModel {
 		return new Node(getName(pathname), pathname);
 	}
 
-	@Override
-	public Node findNode(Object name) {
-		String pathname = getRootNode().getData() + "\\" + name;
-		return new Node(getName(pathname), pathname);
-	}
+//	public Node findNode(Object name) {
+//		String pathname = getRootNode().getData() + "\\" + name;
+//		return new Node(getName(pathname), pathname);
+//	}
 }

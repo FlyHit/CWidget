@@ -121,21 +121,31 @@ public abstract class ContentTreeModel implements IContentTreeModel {
 
 	protected abstract Node convertInput(String input);
 
+	private Node findNode(String itemName) {
+		for (Node child : getChildren(rootNode)) {
+			if (child.getName().equals(itemName)) {
+				return child;
+			}
+		}
+
+		return null;
+	}
+
 	@Override
 	public void addToFavorite(String itemName) {
 		Node node = findNode(itemName);
-		favoriteList.add(node);
-		notifyFavoriteObservers();
+		notifyFavoriteObservers(true, node);
 	}
 
 	@Override
 	public void removeFromFavorite(String itemName) {
-		notifyFavoriteObservers();
+		Node node = findNode(itemName);
+		notifyFavoriteObservers(false, node);
 	}
 
-	private void notifyFavoriteObservers() {
+	private void notifyFavoriteObservers(boolean isAdd, Node node) {
 		for (FavoriteListObserver favoriteObserver : favoriteObservers) {
-			favoriteObserver.updateState();
+			favoriteObserver.updateState(isAdd, node);
 		}
 	}
 

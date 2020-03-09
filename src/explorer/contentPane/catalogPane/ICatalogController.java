@@ -3,6 +3,8 @@ package explorer.contentPane.catalogPane;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.nebula.widgets.gallery.GalleryItem;
 
+import java.util.List;
+
 public interface ICatalogController {
     /**
      * 打开文件夹/文件
@@ -16,5 +18,5 @@ public interface ICatalogController {
      *
      * @return 菜单项
      */
-    IContributionItem[] createMenuItem();
+    List<IContributionItem> createMenuItem();
 }
