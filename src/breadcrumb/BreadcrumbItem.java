@@ -36,17 +36,18 @@ import java.util.List;
  * </dl>
  */
 public class BreadcrumbItem extends Item {
-    public static int num = 1;
 
     private static final int MIN_WIDTH = 40;
     private static final int MARGIN = 4;
-    private static Color SELECTED_COLOR = SWTGraphicUtil.getColorSafely(223, 220, 213);
+    private static Color SELECTED_COLOR = SWTGraphicUtil.getColorSafely(215, 235, 255);
+    private static Color HOVER_COLOR = SWTGraphicUtil.getColorSafely(223, 220, 213);
 
     private final Breadcrumb parentBreadcrumb;
     private final List<SelectionListener> selectionListeners;
     private Rectangle bounds;
     private boolean enabled;
     private boolean selection;
+    private boolean hover;
     private int width;
     private int height;
     private Image disabledImage;
@@ -76,16 +77,16 @@ public class BreadcrumbItem extends Item {
      * @param parent a composite control which will be the parent of the new
      *               instance (cannot be null)
      * @throws IllegalArgumentException <ul>
-     *                                  <li>ERROR_NULL_ARGUMENT - if the parent
-     *                                  is null</li>
-     *                                  </ul>
+     *                                                                   <li>ERROR_NULL_ARGUMENT - if the parent is
+     *                                                                   null</li>
+     *                                                                   </ul>
      * @throws SWTException             <ul>
-     *                                  <li>ERROR_THREAD_INVALID_ACCESS - if not
-     *                                  called from the thread that created the
-     *                                  parent</li>
-     *                                  <li>ERROR_INVALID_SUBCLASS - if this
-     *                                  class is not an allowed subclass</li>
-     *                                  </ul>
+     *                                                                   <li>ERROR_THREAD_INVALID_ACCESS - if not
+     *                                                                   called from the thread that created the
+     *                                                                   parent</li>
+     *                                                                   <li>ERROR_INVALID_SUBCLASS - if this class
+     *                                                                   is not an allowed subclass</li>
+     *                                                                   </ul>
      * @see Widget#getStyle
      */
     public BreadcrumbItem(final Breadcrumb parent) {
@@ -110,16 +111,16 @@ public class BreadcrumbItem extends Item {
      *               instance (cannot be null)
      * @param style  the style of control to construct
      * @throws IllegalArgumentException <ul>
-     *                                  <li>ERROR_NULL_ARGUMENT - if the parent
-     *                                  is null</li>
-     *                                  </ul>
+     *                                                                   <li>ERROR_NULL_ARGUMENT - if the parent is
+     *                                                                   null</li>
+     *                                                                   </ul>
      * @throws SWTException             <ul>
-     *                                  <li>ERROR_THREAD_INVALID_ACCESS - if not
-     *                                  called from the thread that created the
-     *                                  parent</li>
-     *                                  <li>ERROR_INVALID_SUBCLASS - if this
-     *                                  class is not an allowed subclass</li>
-     *                                  </ul>
+     *                                                                   <li>ERROR_THREAD_INVALID_ACCESS - if not
+     *                                                                   called from the thread that created the
+     *                                                                   parent</li>
+     *                                                                   <li>ERROR_INVALID_SUBCLASS - if this class
+     *                                                                   is not an allowed subclass</li>
+     *                                                                   </ul>
      * @see Widget#getStyle
      */
     public BreadcrumbItem(final Breadcrumb parent, final int style) {
@@ -180,16 +181,16 @@ public class BreadcrumbItem extends Item {
      * @param listener the listener which should be notified when the control is
      *                 selected by the user,
      * @throws IllegalArgumentException <ul>
-     *                                  <li>ERROR_NULL_ARGUMENT - if the listener
-     *                                  is null</li>
-     *                                  </ul>
+     *                                                                   <li>ERROR_NULL_ARGUMENT - if the listener is
+     *                                                                   null</li>
+     *                                                                   </ul>
      * @throws SWTException             <ul>
-     *                                  <li>ERROR_WIDGET_DISPOSED - if the
-     *                                  receiver has been disposed</li>
-     *                                  <li>ERROR_THREAD_INVALID_ACCESS - if not
-     *                                  called from the thread that created the
-     *                                  receiver</li>
-     *                                  </ul>
+     *                                                                   <li>ERROR_WIDGET_DISPOSED - if the receiver
+     *                                                                   has been disposed</li>
+     *                                                                   <li>ERROR_THREAD_INVALID_ACCESS - if not
+     *                                                                   called from the thread that created the
+     *                                                                   receiver</li>
+     *                                                                   </ul>
      * @see SelectionListener
      * @see #removeSelectionListener
      * @see SelectionEvent
@@ -223,11 +224,11 @@ public class BreadcrumbItem extends Item {
      *
      * @return the alignment
      * @throws SWTException <ul>
-     *                      <li>ERROR_WIDGET_DISPOSED - if the receiver has been
-     *                      disposed</li>
-     *                      <li>ERROR_THREAD_INVALID_ACCESS - if not called from
-     *                      the thread that created the receiver</li>
-     *                      </ul>
+     *                                           <li>ERROR_WIDGET_DISPOSED - if the receiver has been
+     *                                           disposed</li>
+     *                                           <li>ERROR_THREAD_INVALID_ACCESS - if not called from the
+     *                                           thread that created the receiver</li>
+     *                                           </ul>
      */
     public int getAlignment() {
         checkWidget();
@@ -241,11 +242,11 @@ public class BreadcrumbItem extends Item {
      *
      * @return the receiver's bounding rectangle
      * @throws SWTException <ul>
-     *                      <li>ERROR_WIDGET_DISPOSED - if the receiver has been
-     *                      disposed</li>
-     *                      <li>ERROR_THREAD_INVALID_ACCESS - if not called from
-     *                      the thread that created the receiver</li>
-     *                      </ul>
+     *                                           <li>ERROR_WIDGET_DISPOSED - if the receiver has been
+     *                                           disposed</li>
+     *                                           <li>ERROR_THREAD_INVALID_ACCESS - if not called from the
+     *                                           thread that created the receiver</li>
+     *                                           </ul>
      */
     public Rectangle getBounds() {
         checkWidget();
@@ -255,11 +256,11 @@ public class BreadcrumbItem extends Item {
     /**
      * @return the image displayed when the button is disabled
      * @throws SWTException <ul>
-     *                      <li>ERROR_WIDGET_DISPOSED - if the receiver has been
-     *                      disposed</li>
-     *                      <li>ERROR_THREAD_INVALID_ACCESS - if not called from
-     *                      the thread that created the receiver</li>
-     *                      </ul>
+     *                                           <li>ERROR_WIDGET_DISPOSED - if the receiver has been
+     *                                           disposed</li>
+     *                                           <li>ERROR_THREAD_INVALID_ACCESS - if not called from the
+     *                                           thread that created the receiver</li>
+     *                                           </ul>
      */
     public Image getDisabledImage() {
         checkWidget();
@@ -273,11 +274,11 @@ public class BreadcrumbItem extends Item {
      *
      * @return the receiver's enabled state
      * @throws SWTException <ul>
-     *                      <li>ERROR_WIDGET_DISPOSED - if the receiver has been
-     *                      disposed</li>
-     *                      <li>ERROR_THREAD_INVALID_ACCESS - if not called from
-     *                      the thread that created the receiver</li>
-     *                      </ul>
+     *                                           <li>ERROR_WIDGET_DISPOSED - if the receiver has been
+     *                                           disposed</li>
+     *                                           <li>ERROR_THREAD_INVALID_ACCESS - if not called from the
+     *                                           thread that created the receiver</li>
+     *                                           </ul>
      * @see #isEnabled
      */
     public boolean getEnabled() {
@@ -290,11 +291,11 @@ public class BreadcrumbItem extends Item {
      *
      * @return the receiver's height
      * @throws SWTException <ul>
-     *                      <li>ERROR_WIDGET_DISPOSED - if the receiver has been
-     *                      disposed</li>
-     *                      <li>ERROR_THREAD_INVALID_ACCESS - if not called from
-     *                      the thread that created the receiver</li>
-     *                      </ul>
+     *                                           <li>ERROR_WIDGET_DISPOSED - if the receiver has been
+     *                                           disposed</li>
+     *                                           <li>ERROR_THREAD_INVALID_ACCESS - if not called from the
+     *                                           thread that created the receiver</li>
+     *                                           </ul>
      */
     public int getHeight() {
         checkWidget();
@@ -318,11 +319,11 @@ public class BreadcrumbItem extends Item {
      *
      * @return the receiver's parent
      * @throws SWTException <ul>
-     *                      <li>ERROR_WIDGET_DISPOSED - if the receiver has been
-     *                      disposed</li>
-     *                      <li>ERROR_THREAD_INVALID_ACCESS - if not called from
-     *                      the thread that created the receiver</li>
-     *                      </ul>
+     *                                           <li>ERROR_WIDGET_DISPOSED - if the receiver has been
+     *                                           disposed</li>
+     *                                           <li>ERROR_THREAD_INVALID_ACCESS - if not called from the
+     *                                           thread that created the receiver</li>
+     *                                           </ul>
      */
     public Breadcrumb getParent() {
         checkWidget();
@@ -334,11 +335,11 @@ public class BreadcrumbItem extends Item {
      *
      * @return the selection state
      * @throws SWTException <ul>
-     *                      <li>ERROR_WIDGET_DISPOSED - if the receiver has been
-     *                      disposed</li>
-     *                      <li>ERROR_THREAD_INVALID_ACCESS - if not called from
-     *                      the thread that created the receiver</li>
-     *                      </ul>
+     *                                           <li>ERROR_WIDGET_DISPOSED - if the receiver has been
+     *                                           disposed</li>
+     *                                           <li>ERROR_THREAD_INVALID_ACCESS - if not called from the
+     *                                           thread that created the receiver</li>
+     *                                           </ul>
      */
     public boolean getSelection() {
         checkWidget();
@@ -348,11 +349,11 @@ public class BreadcrumbItem extends Item {
     /**
      * @return the image displayed when the button is selected
      * @throws SWTException <ul>
-     *                      <li>ERROR_WIDGET_DISPOSED - if the receiver has been
-     *                      disposed</li>
-     *                      <li>ERROR_THREAD_INVALID_ACCESS - if not called from
-     *                      the thread that created the receiver</li>
-     *                      </ul>
+     *                                           <li>ERROR_WIDGET_DISPOSED - if the receiver has been
+     *                                           disposed</li>
+     *                                           <li>ERROR_THREAD_INVALID_ACCESS - if not called from the
+     *                                           thread that created the receiver</li>
+     *                                           </ul>
      */
     public Image getSelectionImage() {
         checkWidget();
@@ -364,11 +365,11 @@ public class BreadcrumbItem extends Item {
      *
      * @return the receiver's text color
      * @throws SWTException <ul>
-     *                      <li>ERROR_WIDGET_DISPOSED - if the receiver has been
-     *                      disposed</li>
-     *                      <li>ERROR_THREAD_INVALID_ACCESS - if not called from
-     *                      the thread that created the receiver</li>
-     *                      </ul>
+     *                                           <li>ERROR_WIDGET_DISPOSED - if the receiver has been
+     *                                           disposed</li>
+     *                                           <li>ERROR_THREAD_INVALID_ACCESS - if not called from the
+     *                                           thread that created the receiver</li>
+     *                                           </ul>
      */
     public Color getTextColor() {
         checkWidget();
@@ -380,11 +381,11 @@ public class BreadcrumbItem extends Item {
      *
      * @return the receiver's text color
      * @throws SWTException <ul>
-     *                      <li>ERROR_WIDGET_DISPOSED - if the receiver has been
-     *                      disposed</li>
-     *                      <li>ERROR_THREAD_INVALID_ACCESS - if not called from
-     *                      the thread that created the receiver</li>
-     *                      </ul>
+     *                                           <li>ERROR_WIDGET_DISPOSED - if the receiver has been
+     *                                           disposed</li>
+     *                                           <li>ERROR_THREAD_INVALID_ACCESS - if not called from the
+     *                                           thread that created the receiver</li>
+     *                                           </ul>
      */
 
     public Color getTextColorSelected() {
@@ -397,11 +398,11 @@ public class BreadcrumbItem extends Item {
      *
      * @return the receiver's tool tip text
      * @throws SWTException <ul>
-     *                      <li>ERROR_WIDGET_DISPOSED - if the receiver has been
-     *                      disposed</li>
-     *                      <li>ERROR_THREAD_INVALID_ACCESS - if not called from
-     *                      the thread that created the receiver</li>
-     *                      </ul>
+     *                                           <li>ERROR_WIDGET_DISPOSED - if the receiver has been
+     *                                           disposed</li>
+     *                                           <li>ERROR_THREAD_INVALID_ACCESS - if not called from the
+     *                                           thread that created the receiver</li>
+     *                                           </ul>
      */
     public String getTooltipText() {
         checkWidget();
@@ -413,11 +414,11 @@ public class BreadcrumbItem extends Item {
      *
      * @return the receiver's height
      * @throws SWTException <ul>
-     *                      <li>ERROR_WIDGET_DISPOSED - if the receiver has been
-     *                      disposed</li>
-     *                      <li>ERROR_THREAD_INVALID_ACCESS - if not called from
-     *                      the thread that created the receiver</li>
-     *                      </ul>
+     *                                           <li>ERROR_WIDGET_DISPOSED - if the receiver has been
+     *                                           disposed</li>
+     *                                           <li>ERROR_THREAD_INVALID_ACCESS - if not called from the
+     *                                           thread that created the receiver</li>
+     *                                           </ul>
      */
     public int getWidth() {
         checkWidget();
@@ -434,11 +435,11 @@ public class BreadcrumbItem extends Item {
      *
      * @return the receiver's enabled state
      * @throws SWTException <ul>
-     *                      <li>ERROR_WIDGET_DISPOSED - if the receiver has been
-     *                      disposed</li>
-     *                      <li>ERROR_THREAD_INVALID_ACCESS - if not called from
-     *                      the thread that created the receiver</li>
-     *                      </ul>
+     *                                           <li>ERROR_WIDGET_DISPOSED - if the receiver has been
+     *                                           disposed</li>
+     *                                           <li>ERROR_THREAD_INVALID_ACCESS - if not called from the
+     *                                           thread that created the receiver</li>
+     *                                           </ul>
      * @see #getEnabled
      */
     public boolean isEnabled() {
@@ -452,16 +453,16 @@ public class BreadcrumbItem extends Item {
      *
      * @param listener the listener which should no longer be notified
      * @throws IllegalArgumentException <ul>
-     *                                  <li>ERROR_NULL_ARGUMENT - if the listener
-     *                                  is null</li>
-     *                                  </ul>
+     *                                                                   <li>ERROR_NULL_ARGUMENT - if the listener is
+     *                                                                   null</li>
+     *                                                                   </ul>
      * @throws SWTException             <ul>
-     *                                  <li>ERROR_WIDGET_DISPOSED - if the
-     *                                  receiver has been disposed</li>
-     *                                  <li>ERROR_THREAD_INVALID_ACCESS - if not
-     *                                  called from the thread that created the
-     *                                  receiver</li>
-     *                                  </ul>
+     *                                                                   <li>ERROR_WIDGET_DISPOSED - if the receiver
+     *                                                                   has been disposed</li>
+     *                                                                   <li>ERROR_THREAD_INVALID_ACCESS - if not
+     *                                                                   called from the thread that created the
+     *                                                                   receiver</li>
+     *                                                                   </ul>
      * @see SelectionListener
      * @see #addSelectionListener
      */
@@ -479,11 +480,11 @@ public class BreadcrumbItem extends Item {
      *
      * @param alignment the new alignment
      * @throws SWTException <ul>
-     *                      <li>ERROR_WIDGET_DISPOSED - if the receiver has been
-     *                      disposed</li>
-     *                      <li>ERROR_THREAD_INVALID_ACCESS - if not called from
-     *                      the thread that created the receiver</li>
-     *                      </ul>
+     *                                           <li>ERROR_WIDGET_DISPOSED - if the receiver has been
+     *                                           disposed</li>
+     *                                           <li>ERROR_THREAD_INVALID_ACCESS - if not called from the
+     *                                           thread that created the receiver</li>
+     *                                           </ul>
      */
     public void setAlignment(final int alignment) {
         checkWidget();
@@ -501,11 +502,11 @@ public class BreadcrumbItem extends Item {
      *
      * @param rect the new bounds for the receiver
      * @throws SWTException <ul>
-     *                      <li>ERROR_WIDGET_DISPOSED - if the receiver has been
-     *                      disposed</li>
-     *                      <li>ERROR_THREAD_INVALID_ACCESS - if not called from
-     *                      the thread that created the receiver</li>
-     *                      </ul>
+     *                                           <li>ERROR_WIDGET_DISPOSED - if the receiver has been
+     *                                           disposed</li>
+     *                                           <li>ERROR_THREAD_INVALID_ACCESS - if not called from the
+     *                                           thread that created the receiver</li>
+     *                                           </ul>
      */
     public void setBounds(final Rectangle rectangle) {
         checkWidget();
@@ -524,16 +525,16 @@ public class BreadcrumbItem extends Item {
      *
      * @param image the image to display on the receiver (may be null)
      * @throws IllegalArgumentException <ul>
-     *                                  <li>ERROR_INVALID_ARGUMENT - if the image
-     *                                  has been disposed</li>
-     *                                  </ul>
+     *                                                                   <li>ERROR_INVALID_ARGUMENT - if the image
+     *                                                                   has been disposed</li>
+     *                                                                   </ul>
      * @throws SWTException             <ul>
-     *                                  <li>ERROR_WIDGET_DISPOSED - if the
-     *                                  receiver has been disposed</li>
-     *                                  <li>ERROR_THREAD_INVALID_ACCESS - if not
-     *                                  called from the thread that created the
-     *                                  receiver</li>
-     *                                  </ul>
+     *                                                                   <li>ERROR_WIDGET_DISPOSED - if the receiver
+     *                                                                   has been disposed</li>
+     *                                                                   <li>ERROR_THREAD_INVALID_ACCESS - if not
+     *                                                                   called from the thread that created the
+     *                                                                   receiver</li>
+     *                                                                   </ul>
      */
     public void setDisabledImage(final Image image) {
         checkWidget();
@@ -550,11 +551,11 @@ public class BreadcrumbItem extends Item {
      *
      * @param enabled the new enabled state
      * @throws SWTException <ul>
-     *                      <li>ERROR_WIDGET_DISPOSED - if the receiver has been
-     *                      disposed</li>
-     *                      <li>ERROR_THREAD_INVALID_ACCESS - if not called from
-     *                      the thread that created the receiver</li>
-     *                      </ul>
+     *                                           <li>ERROR_WIDGET_DISPOSED - if the receiver has been
+     *                                           disposed</li>
+     *                                           <li>ERROR_THREAD_INVALID_ACCESS - if not called from the
+     *                                           thread that created the receiver</li>
+     *                                           </ul>
      */
     public void setEnabled(final boolean enabled) {
         checkWidget();
@@ -570,11 +571,11 @@ public class BreadcrumbItem extends Item {
      *
      * @param height the new width
      * @throws SWTException <ul>
-     *                      <li>ERROR_WIDGET_DISPOSED - if the receiver has been
-     *                      disposed</li>
-     *                      <li>ERROR_THREAD_INVALID_ACCESS - if not called from
-     *                      the thread that created the receiver</li>
-     *                      </ul>
+     *                                           <li>ERROR_WIDGET_DISPOSED - if the receiver has been
+     *                                           disposed</li>
+     *                                           <li>ERROR_THREAD_INVALID_ACCESS - if not called from the
+     *                                           thread that created the receiver</li>
+     *                                           </ul>
      */
     public void setHeight(final int height) {
         checkWidget();
@@ -586,15 +587,20 @@ public class BreadcrumbItem extends Item {
      *
      * @param selected the new selection state
      * @throws SWTException <ul>
-     *                      <li>ERROR_WIDGET_DISPOSED - if the receiver has been
-     *                      disposed</li>
-     *                      <li>ERROR_THREAD_INVALID_ACCESS - if not called from
-     *                      the thread that created the receiver</li>
-     *                      </ul>
+     *                                           <li>ERROR_WIDGET_DISPOSED - if the receiver has been
+     *                                           disposed</li>
+     *                                           <li>ERROR_THREAD_INVALID_ACCESS - if not called from the
+     *                                           thread that created the receiver</li>
+     *                                           </ul>
      */
     public void setSelection(final boolean selected) {
         checkWidget();
         selection = selected;
+    }
+
+    public void setHover(final boolean hovered) {
+        checkWidget();
+        hover = hovered;
     }
 
     /**
@@ -603,16 +609,16 @@ public class BreadcrumbItem extends Item {
      *
      * @param image the image to display on the receiver (may be null)
      * @throws IllegalArgumentException <ul>
-     *                                  <li>ERROR_INVALID_ARGUMENT - if the image
-     *                                  has been disposed</li>
-     *                                  </ul>
+     *                                                                   <li>ERROR_INVALID_ARGUMENT - if the image
+     *                                                                   has been disposed</li>
+     *                                                                   </ul>
      * @throws SWTException             <ul>
-     *                                  <li>ERROR_WIDGET_DISPOSED - if the
-     *                                  receiver has been disposed</li>
-     *                                  <li>ERROR_THREAD_INVALID_ACCESS - if not
-     *                                  called from the thread that created the
-     *                                  receiver</li>
-     *                                  </ul>
+     *                                                                   <li>ERROR_WIDGET_DISPOSED - if the receiver
+     *                                                                   has been disposed</li>
+     *                                                                   <li>ERROR_THREAD_INVALID_ACCESS - if not
+     *                                                                   called from the thread that created the
+     *                                                                   receiver</li>
+     *                                                                   </ul>
      */
     public void setSelectionImage(final Image image) {
         checkWidget();
@@ -625,16 +631,16 @@ public class BreadcrumbItem extends Item {
      *
      * @param textColor the text color to display on the receiver (may be null)
      * @throws IllegalArgumentException <ul>
-     *                                  <li>ERROR_INVALID_ARGUMENT - if the image
-     *                                  has been disposed</li>
-     *                                  </ul>
+     *                                                                   <li>ERROR_INVALID_ARGUMENT - if the image
+     *                                                                   has been disposed</li>
+     *                                                                   </ul>
      * @throws SWTException             <ul>
-     *                                  <li>ERROR_WIDGET_DISPOSED - if the
-     *                                  receiver has been disposed</li>
-     *                                  <li>ERROR_THREAD_INVALID_ACCESS - if not
-     *                                  called from the thread that created the
-     *                                  receiver</li>
-     *                                  </ul>
+     *                                                                   <li>ERROR_WIDGET_DISPOSED - if the receiver
+     *                                                                   has been disposed</li>
+     *                                                                   <li>ERROR_THREAD_INVALID_ACCESS - if not
+     *                                                                   called from the thread that created the
+     *                                                                   receiver</li>
+     *                                                                   </ul>
      */
     public void setTextColor(final Color textColor) {
         checkWidget();
@@ -647,16 +653,16 @@ public class BreadcrumbItem extends Item {
      *
      * @param textColor the text color to display on the receiver (may be null)
      * @throws IllegalArgumentException <ul>
-     *                                  <li>ERROR_INVALID_ARGUMENT - if the image
-     *                                  has been disposed</li>
-     *                                  </ul>
+     *                                                                   <li>ERROR_INVALID_ARGUMENT - if the image
+     *                                                                   has been disposed</li>
+     *                                                                   </ul>
      * @throws SWTException             <ul>
-     *                                  <li>ERROR_WIDGET_DISPOSED - if the
-     *                                  receiver has been disposed</li>
-     *                                  <li>ERROR_THREAD_INVALID_ACCESS - if not
-     *                                  called from the thread that created the
-     *                                  receiver</li>
-     *                                  </ul>
+     *                                                                   <li>ERROR_WIDGET_DISPOSED - if the receiver
+     *                                                                   has been disposed</li>
+     *                                                                   <li>ERROR_THREAD_INVALID_ACCESS - if not
+     *                                                                   called from the thread that created the
+     *                                                                   receiver</li>
+     *                                                                   </ul>
      */
     public void setTextColorSelected(final Color textColor) {
         checkWidget();
@@ -677,11 +683,11 @@ public class BreadcrumbItem extends Item {
      *
      * @param string the new tool tip text (or null)
      * @throws SWTException <ul>
-     *                      <li>ERROR_WIDGET_DISPOSED - if the receiver has been
-     *                      disposed</li>
-     *                      <li>ERROR_THREAD_INVALID_ACCESS - if not called from
-     *                      the thread that created the receiver</li>
-     *                      </ul>
+     *                                           <li>ERROR_WIDGET_DISPOSED - if the receiver has been
+     *                                           disposed</li>
+     *                                           <li>ERROR_THREAD_INVALID_ACCESS - if not called from the
+     *                                           thread that created the receiver</li>
+     *                                           </ul>
      */
     public void setTooltipText(final String string) {
         checkWidget();
@@ -697,11 +703,11 @@ public class BreadcrumbItem extends Item {
      *
      * @param width the new width
      * @throws SWTException <ul>
-     *                      <li>ERROR_WIDGET_DISPOSED - if the receiver has been
-     *                      disposed</li>
-     *                      <li>ERROR_THREAD_INVALID_ACCESS - if not called from
-     *                      the thread that created the receiver</li>
-     *                      </ul>
+     *                                           <li>ERROR_WIDGET_DISPOSED - if the receiver has been
+     *                                           disposed</li>
+     *                                           <li>ERROR_THREAD_INVALID_ACCESS - if not called from the
+     *                                           thread that created the receiver</li>
+     *                                           </ul>
      */
     public void setWidth(final int width) {
         checkWidget();
@@ -721,31 +727,24 @@ public class BreadcrumbItem extends Item {
     }
 
     void drawButtonAtPosition(final int x) {
-//		if (num == 4) {
-//			System.out.println(12);
-//		}
-
-        num++;
 
         if (selection) {
             drawBackgroundAtPosition(x);
         }
 
-//		drawTriangleAtPosition(x);
+        if (hover) {
+            drawBackgroundAtPosition(x);
+        }
 
         int xPosition = computeGap();
-//		System.out.println(x);
-//		System.out.println(xPosition);
         Point point = computeSizeOfTextAndImages();
         int arrowX = x + xPosition + point.x + 2;
-        System.out.println(arrowX);
 
         final Image drawnedImage = drawImageAtPosition(x + xPosition);
         if (drawnedImage != null) {
             xPosition += drawnedImage.getBounds().width + 2 * MARGIN;
         }
         drawTextAtPosition(x + xPosition);
-//		System.out.println(x + xPosition);
 
         gc.setLineWidth(1);
         gc.drawLine(arrowX, 10, arrowX + 4, toolbarHeight / 2);
@@ -757,8 +756,13 @@ public class BreadcrumbItem extends Item {
         gc.setAdvanced(true);
         gc.setAntialias(SWT.ON);
 
-        gc.setForeground(SELECTED_COLOR);
-        gc.setBackground(SELECTED_COLOR);
+        if (selection) {
+            gc.setForeground(SELECTED_COLOR);
+            gc.setBackground(SELECTED_COLOR);
+        } else if (hover) {
+            gc.setForeground(HOVER_COLOR);
+            gc.setBackground(HOVER_COLOR);
+        }
 
         final boolean hasBorder = parentBreadcrumb.hasBorder;
         final boolean isFirst = parentBreadcrumb.indexOf(this) == 0;
@@ -916,22 +920,22 @@ public class BreadcrumbItem extends Item {
 //		} else {
 //			padding = 5;
 //		}
-        gc.drawText(getText(), xPosition + padding, yPosition, true);
-    }
+		gc.drawText(getText(), xPosition + padding, yPosition, true);
+	}
 
-    BreadcrumbItem setGc(final GC gc) {
-        this.gc = gc;
-        return this;
-    }
+	BreadcrumbItem setGc(final GC gc) {
+		this.gc = gc;
+		return this;
+	}
 
-    BreadcrumbItem setToolbarHeight(final int toolbarHeight) {
-        this.toolbarHeight = toolbarHeight;
-        return this;
-    }
+	BreadcrumbItem setToolbarHeight(final int toolbarHeight) {
+		this.toolbarHeight = toolbarHeight;
+		return this;
+	}
 
-    BreadcrumbItem setIsLastItemOfTheBreadCrumb(final boolean isLastItemOfTheBreadCrumb) {
-        this.isLastItemOfTheBreadCrumb = isLastItemOfTheBreadCrumb;
-        return this;
-    }
+	BreadcrumbItem setIsLastItemOfTheBreadCrumb(final boolean isLastItemOfTheBreadCrumb) {
+		this.isLastItemOfTheBreadCrumb = isLastItemOfTheBreadCrumb;
+		return this;
+	}
 
 }
