@@ -56,7 +56,7 @@ public class BreadcrumbTest {
         label.setText("Label breadcrumb:");
         label.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
 
-        createBreadcrumb(shell, SWT.BORDER, SWT.CENTER, false);
+        createBreadcrumb(shell, SWT.BORDER, SWT.LEFT, false);
         new Label(shell, SWT.NONE);
 
         createBreadcrumb(shell, SWT.NONE, SWT.CENTER, false);
@@ -111,7 +111,6 @@ public class BreadcrumbTest {
         final Label label = new Label(shell, SWT.NONE);
         label.setText("Toggle buttons breadcrumb:");
         label.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
-
         createBreadcrumb(shell, SWT.BORDER, SWT.CENTER | SWT.TOGGLE, false);
         new Label(shell, SWT.NONE);
 

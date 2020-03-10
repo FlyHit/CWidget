@@ -109,6 +109,7 @@ public class Breadcrumb extends Canvas {
 
 	private void addMouseDownListener() {
 		addListener(SWT.MouseDown, event -> {
+            System.out.println(event.x);
 
 			final BreadcrumbItem item = items.stream()//
 					.filter(element -> element.getBounds().contains(event.x, event.y)) //
@@ -117,6 +118,15 @@ public class Breadcrumb extends Canvas {
 			if (item == null) {
 				return;
 			}
+
+            int relativeX = event.x;
+            // 将坐标x转换为相对于被点击item的坐标值
+            for (int i = 0; i < indexOf(item); i++) {
+                relativeX -= getItem(i).getWidth();
+            }
+            // 传递鼠标的x坐标
+            item.setMouseDownXCoordinate(relativeX);
+
 			final boolean isToggle = (item.getStyle() & SWT.TOGGLE) != 0;
 			final boolean isPush = (item.getStyle() & SWT.PUSH) != 0;
 			if (isToggle || isPush) {
@@ -126,7 +136,6 @@ public class Breadcrumb extends Canvas {
 			}
 			item.setData(IS_BUTTON_PRESSED, "*");
 		});
-
 	}
 
 	private void addMouseUpListener() {
