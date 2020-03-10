@@ -65,7 +65,7 @@ public class BreadcrumbTest {
     private static void createBreadcrumb(final Shell shell, final int breadCrumbArgument, final int itemArgument,
                                          final boolean showImages) {
         final Breadcrumb bc = new Breadcrumb(shell, breadCrumbArgument);
-        bc.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, false, false));
+        bc.setLayoutData(new GridData(GridData.BEGINNING, GridData.CENTER, true, false));
 
         for (int i = 1; i < 5; i++) {
             final BreadcrumbItem item = new BreadcrumbItem(bc, itemArgument);
@@ -78,7 +78,10 @@ public class BreadcrumbTest {
 
                 @Override
                 public void widgetSelected(final SelectionEvent e) {
-                    System.out.println("Click !");
+//					System.out.println("Click !");
+                    for (BreadcrumbItem item : bc.getItems()) {
+                        System.out.println(item.getBounds());
+                    }
                 }
 
             });

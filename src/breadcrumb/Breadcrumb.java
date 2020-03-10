@@ -15,6 +15,8 @@ package breadcrumb;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTException;
+import org.eclipse.swt.events.ControlAdapter;
+import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
@@ -24,7 +26,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Widget;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -54,6 +55,8 @@ public class Breadcrumb extends Canvas {
 	static Color BORDER_COLOR_3 = SWTGraphicUtil.getColorSafely(243, 243, 243);
 	boolean hasBorder = false;
 	private int indexOfLastItem = -1; // 鼠标移动时上次经过的breadcrumbItem序号
+    // 开始在breadcrumb上显示的item的序号，之前的item不显示
+    private int beginIndex = 0;
 
 	/**
 	 * Constructs a new instance of this class given its parent and a style value
@@ -70,17 +73,19 @@ public class Breadcrumb extends Canvas {
 	 * @param parent a composite control which will be the parent of the new
 	 *               instance (cannot be null)
 	 * @param style  the style of control to construct
-	 * @throws IllegalArgumentException <ul>
-	 *                                                                   <li>ERROR_NULL_ARGUMENT - if the parent is
-	 *                                                                   null</li>
-	 *                                                                   </ul>
-	 * @throws SWTException             <ul>
-	 *                                                                   <li>ERROR_THREAD_INVALID_ACCESS - if not
-	 *                                                                   called from the thread that created the
-	 *                                                                   parent</li>
-	 *                                                                   <li>ERROR_INVALID_SUBCLASS - if this class
-	 *                                                                   is not an allowed subclass</li>
-	 *                                                                   </ul>
+     * @throws IllegalArgumentException
+     *                                  <ul>
+     *                                  <li>ERROR_NULL_ARGUMENT - if the parent is
+     *                                  null</li>
+     *                                  </ul>
+     * @throws SWTException
+     *                                  <ul>
+     *                                  <li>ERROR_THREAD_INVALID_ACCESS - if not
+     *                                  called from the thread that created the
+     *                                  parent</li>
+     *                                  <li>ERROR_INVALID_SUBCLASS - if this class
+     *                                  is not an allowed subclass</li>
+     *                                  </ul>
 	 * @see Widget#getStyle()
 	 */
 	public Breadcrumb(final Composite parent, final int style) {
@@ -88,6 +93,21 @@ public class Breadcrumb extends Canvas {
 		items = new ArrayList<>();
 		hasBorder = (style & SWT.BORDER) != 0;
 		addListeners();
+        addControlListener(new ControlAdapter() {
+            @Override
+            public void controlResized(ControlEvent e) {
+                int clientAreaWidth = getClientArea().width;
+                int itemsWidth = 0; // 所有item的总宽
+                for (int i = getItemCount() - 1; i >= 0; i--) {
+                    itemsWidth += getItem(i).getWidth();
+                    if (itemsWidth > clientAreaWidth) {
+                        beginIndex = i + 1;
+                        return;
+                    }
+                }
+                beginIndex = 0;
+            }
+        });
 	}
 
 	private static int checkStyle(final int style) {
@@ -109,12 +129,8 @@ public class Breadcrumb extends Canvas {
 
 	private void addMouseDownListener() {
 		addListener(SWT.MouseDown, event -> {
-            System.out.println(event.x);
 
-			final BreadcrumbItem item = items.stream()//
-					.filter(element -> element.getBounds().contains(event.x, event.y)) //
-					.findFirst() //
-					.orElse(null);
+            final BreadcrumbItem item = getItem(new Point(event.x, event.y));
 			if (item == null) {
 				return;
 			}
@@ -141,10 +157,7 @@ public class Breadcrumb extends Canvas {
 	private void addMouseUpListener() {
 		addListener(SWT.MouseUp, event -> {
 
-			final BreadcrumbItem item = items.stream()//
-					.filter(element -> element.getBounds().contains(event.x, event.y)) //
-					.findFirst() //
-					.orElse(null);
+            final BreadcrumbItem item = getItem(new Point(event.x, event.y));
 			if (item == null) {
 				return;
 			}
@@ -168,10 +181,7 @@ public class Breadcrumb extends Canvas {
 
 	private void addMouseHoverListener() {
 		addListener(SWT.MouseHover, event -> {
-			final BreadcrumbItem item = items.stream()//
-					.filter(element -> element.getBounds().contains(event.x, event.y)) //
-					.findFirst() //
-					.orElse(null);
+            final BreadcrumbItem item = getItem(new Point(event.x, event.y));
 			if (item == null) {
 				return;
 			}
@@ -181,13 +191,10 @@ public class Breadcrumb extends Canvas {
 
 	private void addMouseMoveListener() {
 		addListener(SWT.MouseMove, event -> {
-			final BreadcrumbItem item = items.stream()//
-					.filter(element -> element.getBounds().contains(event.x, event.y)) //
-					.findFirst() //
-					.orElse(null);
+            final BreadcrumbItem item = getItem(new Point(event.x, event.y));
+
+            // 鼠标在一个item内移动，不重绘
 			if (item == null || indexOf(item) == indexOfLastItem) {
-				BreadcrumbItem lastItem = getItem(indexOfLastItem);
-				lastItem.setHover(false);
 				return;
 			}
 
@@ -230,14 +237,21 @@ public class Breadcrumb extends Canvas {
 		final int height = getSize().y;
 
 		drawBackground(gc, width, height);
-		final Iterator<BreadcrumbItem> it = items.iterator();
+
 		int x = 0;
-		while (it.hasNext()) {
-			final BreadcrumbItem item = it.next();
-			item.setGc(gc).setToolbarHeight(height).setIsLastItemOfTheBreadCrumb(!it.hasNext());
+        // 只绘制显示区域能够显示的item
+        for (int i = beginIndex; i < items.size(); i++) {
+            final BreadcrumbItem item = items.get(i);
+            item.setGc(gc).setToolbarHeight(height);
 			item.drawButtonAtPosition(x);
 			x += item.getWidth();
 		}
+
+        // 其余的item状态设为不可见
+        for (int i = 0; i < beginIndex; i++) {
+            final BreadcrumbItem item = items.get(i);
+            item.setInvisible();
+        }
 	}
 
 	private void drawBackground(final GC gc, final int width, final int height) {
@@ -279,18 +293,20 @@ public class Breadcrumb extends Canvas {
 	 *
 	 * @param index the index of the item to return
 	 * @return the item at the given index
-	 * @throws IllegalArgumentException <ul>
-	 *                                                                   <li>ERROR_INVALID_RANGE - if the index is
-	 *                                                                   not between 0 and the number of elements in
-	 *                                                                   the list minus 1 (inclusive)</li>
-	 *                                                                   </ul>
-	 * @throws SWTException             <ul>
-	 *                                                                   <li>ERROR_WIDGET_DISPOSED - if the receiver
-	 *                                                                   has been disposed</li>
-	 *                                                                   <li>ERROR_THREAD_INVALID_ACCESS - if not
-	 *                                                                   called from the thread that created the
-	 *                                                                   receiver</li>
-	 *                                                                   </ul>
+     * @throws IllegalArgumentException
+     *                                  <ul>
+     *                                  <li>ERROR_INVALID_RANGE - if the index is
+     *                                  not between 0 and the number of elements in
+     *                                  the list minus 1 (inclusive)</li>
+     *                                  </ul>
+     * @throws SWTException
+     *                                  <ul>
+     *                                  <li>ERROR_WIDGET_DISPOSED - if the receiver
+     *                                  has been disposed</li>
+     *                                  <li>ERROR_THREAD_INVALID_ACCESS - if not
+     *                                  called from the thread that created the
+     *                                  receiver</li>
+     *                                  </ul>
 	 */
 	public BreadcrumbItem getItem(final int index) {
 		checkWidget();
@@ -306,17 +322,19 @@ public class Breadcrumb extends Canvas {
 	 *
 	 * @param point the point used to locate the item
 	 * @return the item at the given point
-	 * @throws IllegalArgumentException <ul>
-	 *                                                                   <li>ERROR_NULL_ARGUMENT - if the point is
-	 *                                                                   null</li>
-	 *                                                                   </ul>
-	 * @throws SWTException             <ul>
-	 *                                                                   <li>ERROR_WIDGET_DISPOSED - if the receiver
-	 *                                                                   has been disposed</li>
-	 *                                                                   <li>ERROR_THREAD_INVALID_ACCESS - if not
-	 *                                                                   called from the thread that created the
-	 *                                                                   receiver</li>
-	 *                                                                   </ul>
+     * @throws IllegalArgumentException
+     *                                  <ul>
+     *                                  <li>ERROR_NULL_ARGUMENT - if the point is
+     *                                  null</li>
+     *                                  </ul>
+     * @throws SWTException
+     *                                  <ul>
+     *                                  <li>ERROR_WIDGET_DISPOSED - if the receiver
+     *                                  has been disposed</li>
+     *                                  <li>ERROR_THREAD_INVALID_ACCESS - if not
+     *                                  called from the thread that created the
+     *                                  receiver</li>
+     *                                  </ul>
 	 */
 	public BreadcrumbItem getItem(final Point point) {
 		checkWidget();
@@ -331,12 +349,13 @@ public class Breadcrumb extends Canvas {
 	 * Returns the number of items contained in the receiver.
 	 *
 	 * @return the number of items
-	 * @throws SWTException <ul>
-	 *                                           <li>ERROR_WIDGET_DISPOSED - if the receiver has been
-	 *                                           disposed</li>
-	 *                                           <li>ERROR_THREAD_INVALID_ACCESS - if not called from the
-	 *                                           thread that created the receiver</li>
-	 *                                           </ul>
+     * @throws SWTException
+     *                      <ul>
+     *                      <li>ERROR_WIDGET_DISPOSED - if the receiver has been
+     *                      disposed</li>
+     *                      <li>ERROR_THREAD_INVALID_ACCESS - if not called from the
+     *                      thread that created the receiver</li>
+     *                      </ul>
 	 */
 	public int getItemCount() {
 		checkWidget();
@@ -352,12 +371,13 @@ public class Breadcrumb extends Canvas {
 	 * </p>
 	 *
 	 * @return the items in the receiver
-	 * @throws SWTException <ul>
-	 *                                           <li>ERROR_WIDGET_DISPOSED - if the receiver has been
-	 *                                           disposed</li>
-	 *                                           <li>ERROR_THREAD_INVALID_ACCESS - if not called from the
-	 *                                           thread that created the receiver</li>
-	 *                                           </ul>
+     * @throws SWTException
+     *                      <ul>
+     *                      <li>ERROR_WIDGET_DISPOSED - if the receiver has been
+     *                      disposed</li>
+     *                      <li>ERROR_THREAD_INVALID_ACCESS - if not called from the
+     *                      thread that created the receiver</li>
+     *                      </ul>
 	 */
 	public BreadcrumbItem[] getItems() {
 		checkWidget();
@@ -371,19 +391,21 @@ public class Breadcrumb extends Canvas {
 	 *
 	 * @param item the search item
 	 * @return the index of the item
-	 * @throws IllegalArgumentException <ul>
-	 *                                                                   <li>ERROR_NULL_ARGUMENT - if the item is
-	 *                                                                   null</li>
-	 *                                                                   <li>ERROR_INVALID_ARGUMENT - if the item has
-	 *                                                                   been disposed</li>
-	 *                                                                   </ul>
-	 * @throws SWTException             <ul>
-	 *                                                                   <li>ERROR_WIDGET_DISPOSED - if the receiver
-	 *                                                                   has been disposed</li>
-	 *                                                                   <li>ERROR_THREAD_INVALID_ACCESS - if not
-	 *                                                                   called from the thread that created the
-	 *                                                                   receiver</li>
-	 *                                                                   </ul>
+     * @throws IllegalArgumentException
+     *                                  <ul>
+     *                                  <li>ERROR_NULL_ARGUMENT - if the item is
+     *                                  null</li>
+     *                                  <li>ERROR_INVALID_ARGUMENT - if the item has
+     *                                  been disposed</li>
+     *                                  </ul>
+     * @throws SWTException
+     *                                  <ul>
+     *                                  <li>ERROR_WIDGET_DISPOSED - if the receiver
+     *                                  has been disposed</li>
+     *                                  <li>ERROR_THREAD_INVALID_ACCESS - if not
+     *                                  called from the thread that created the
+     *                                  receiver</li>
+     *                                  </ul>
 	 */
 	public int indexOf(final BreadcrumbItem item) {
 		checkWidget();

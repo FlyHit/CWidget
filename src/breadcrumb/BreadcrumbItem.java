@@ -62,11 +62,12 @@ public class BreadcrumbItem extends Item {
     private String tooltipText;
     private GC gc;
     private int toolbarHeight;
-    private boolean isLastItemOfTheBreadCrumb;
     // 点击箭头出现的菜单
     private Menu menu;
     private int xCoordinate;
     private boolean isMouseDown;
+    // 当item由于breadcrumb调整大小而消失时，将bounds中的x设为INVISIBLE
+    private final int INVISIBLE = -10000;
 
     /**
      * Constructs a new instance of this class given its parent (which must be a
@@ -510,7 +511,7 @@ public class BreadcrumbItem extends Item {
      * number will cause that value to be set to zero instead.
      * </p>
      *
-     * @param rect the new bounds for the receiver
+     * @param rectangle the new bounds for the receiver
      * @throws SWTException <ul>
      *                      <li>ERROR_WIDGET_DISPOSED - if the receiver has been
      *                      disposed</li>
@@ -756,6 +757,15 @@ public class BreadcrumbItem extends Item {
         menu.setVisible(true);
     }
 
+    /**
+     * 将此item标记为不可见。（breadcrumb中判断当前点击的是哪个item
+     * 是通过判断当前鼠标是否落在item的区域内来实现的，因此需要将不可见的item
+     * 的x坐标设为该数，即让鼠标永远不会落在该区域）
+     */
+    void setInvisible() {
+        bounds.x = INVISIBLE;
+    }
+
     void drawButtonAtPosition(final int x) {
 
         if (selection) {
@@ -792,7 +802,7 @@ public class BreadcrumbItem extends Item {
 
         final int xUpperLeft = x + borderWidth;
         final int yUpperLeft = borderWidth;
-        final int rectWidth = getWidth() - borderWidth - (isLastItemOfTheBreadCrumb && hasBorder ? 1 : 0);
+        final int rectWidth = getWidth() - 2 * borderWidth;
         final int rectHeight = getHeight() - 2 * borderWidth;
         gc.fillRectangle(xUpperLeft, yUpperLeft, rectWidth, rectHeight);
 
@@ -917,10 +927,4 @@ public class BreadcrumbItem extends Item {
         this.toolbarHeight = toolbarHeight;
         return this;
     }
-
-    BreadcrumbItem setIsLastItemOfTheBreadCrumb(final boolean isLastItemOfTheBreadCrumb) {
-        this.isLastItemOfTheBreadCrumb = isLastItemOfTheBreadCrumb;
-        return this;
-    }
-
 }
